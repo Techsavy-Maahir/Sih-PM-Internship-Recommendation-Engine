@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Udaan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .custom-shadow {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="/icons/logo.svg" alt="Udaan logo" class="h-8 w-8 mr-2" />
+                <h1 class="text-xl font-bold text-gray-900">Udaan</h1>
+            </div>
+            <nav class="space-x-6 text-gray-700 font-medium">
+                <a href="#" class="transition hover:text-indigo-600">How it Works</a>
+                <a href="#" class="transition hover:text-indigo-600">About</a>
+                <a href="#" class="transition hover:text-indigo-600">Support</a>
+                <a href="loginInPage.html" class="px-4 py-2 rounded-lg text-gray-700 transition hover:text-indigo-600">Login</a>
+                <a href="signUp.html" class="bg-black text-white px-4 py-2 rounded-lg transition hover:bg-gray-800">Sign Up</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Login Section -->
+    <section class="flex flex-col items-center justify-center py-12">
+        <h1 class="text-2xl font-bold text-center text-gray-900 mb-2">Welcome Back</h1>
+        <p class="text-center text-gray-600 mb-6 text-sm">Sign in to your account to continue your internship journey</p>
+
+        <!-- Login Card -->
+        <div class="w-full max-w-md bg-white rounded-lg custom-shadow p-8">
+            <h2 class="text-center text-lg font-semibold mb-6 text-gray-900">Login to Udaan</h2>
+            <form>
+                <div class="space-y-4">
+                    <label class="block">
+                        <span class="block text-sm font-medium mb-1 text-gray-900">Email Address</span>
+                        <input type="email" id="email" placeholder="Enter your email" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-black" />
+                    </label>
+                    <label class="block">
+                        <span class="block text-sm font-medium mb-1 text-gray-900">Password</span>
+                        <input type="password" id="password" placeholder="Enter your password" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-black" />
+                    </label>
+
+                    <!-- Remember Me and Forgot Password -->
+                    <div class="flex items-center justify-between text-xs">
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" class="h-4 w-4 accent-gray-900" />
+                            <span class="text-gray-700">Remember me</span>
+                        </label>
+                        <a href="#" class="text-gray-700 hover:underline">Forgot password?</a>
+                    </div>
+                </div>
+
+                <!-- Sign In Button -->
+                <button type="submit" class="w-full bg-black text-white py-2 rounded font-medium transition hover:bg-gray-800 mt-6">Sign In</button>
+            </form>
+
+            <!-- Divider -->
+            <div class="flex items-center my-6">
+                <hr class="flex-grow border-gray-200" />
+                <span class="px-3 text-sm text-gray-400">OR CONTINUE WITH</span>
+                <hr class="flex-grow border-gray-200" />
+            </div>
+
+            <!-- Social Login -->
+            <div class="flex space-x-4">
+                <button class="flex-1 bg-white border border-gray-300 px-4 py-2 rounded flex items-center justify-center space-x-2 hover:bg-gray-50 transition">
+                    <img src="/icons/google.svg" alt="Google" class="w-4 h-4" />
+                    <span class="text-sm text-gray-700 font-medium">Google</span>
+                </button>
+                <button class="flex-1 bg-white border border-gray-300 px-4 py-2 rounded flex items-center justify-center space-x-2 hover:bg-gray-50 transition">
+                    <img src="/icons/twitter.svg" alt="Twitter" class="w-4 h-4" />
+                    <span class="text-sm text-gray-700 font-medium">Twitter</span>
+                </button>
+            </div>
+
+            <!-- Redirects -->
+            <p class="text-center mt-6 text-sm text-gray-500">
+                Don't have an account? <a href="signUp.html" class="font-semibold text-gray-900 hover:underline">Sign up here</a>
+            </p>
+            <p class="text-center mt-4 text-sm text-gray-500">
+                <a href="index.html" class="hover:underline">&larr; Back to home</a>
+            </p>
+        </div>
+
+        <!-- Demo Credentials Section -->
+        <div class="w-full max-w-md bg-white rounded-lg custom-shadow p-6 mt-6 text-sm">
+            <h3 class="font-bold text-gray-900 mb-3">Demo Credentials</h3>
+            <p class="text-gray-600 mb-1">Email: <span class="font-medium">demo@udaan.com</span></p>
+            <p class="text-gray-600 mb-3">Password: <span class="font-medium">demo123</span></p>
+            <p class="text-gray-600 text-xs">Use any email/password combination to test</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 text-gray-700 py-10">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="col-span-1 md:col-span-1">
+                <div class="flex items-start mb-2">
+                    <img src="/icons/logo.svg" alt="Udaan Logo" class="h-10 w-10 mr-2 mt-0.5" />
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900">Udaan</h3>
+                        <p class="text-sm mt-1">Smart AI-powered internship matching for the PM Internship Scheme. Find your perfect career opportunity in minutes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1">
+                <h3 class="font-semibold text-gray-900 mb-2">Platform</h3>
+                <ul class="space-y-1 text-sm">
+                    <li><a href="#" class="hover:underline">How it Works</a></li>
+                    <li><a href="#" class="hover:underline">Success Stories</a></li>
+                    <li><a href="#" class="hover:underline">FAQ</a></li>
+                    <li><a href="#" class="hover:underline">Support</a></li>
+                </ul>
+            </div>
+            <div class="col-span-1">
+                <h3 class="font-semibold text-gray-900 mb-2">Resources</h3>
+                <ul class="space-y-1 text-sm">
+                    <li><a href="#" class="hover:underline">Career Guide</a></li>
+                    <li><a href="#" class="hover:underline">Interview Tips</a></li>
+                    <li><a href="#" class="hover:underline">Resume Builder</a></li>
+                    <li><a href="#" class="hover:underline">Blog</a></li>
+                </ul>
+            </div>
+            <div class="col-span-1">
+                <h3 class="font-semibold text-gray-900 mb-2">Contact</h3>
+                <ul class="space-y-1 text-sm">
+                    <li>Email: help@pminternshipai.gov.in</li>
+                    <li>Phone: 1800-XXX-XXXX</li>
+                    <li>Hours: Mon-Fri 9AM-6PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 mt-8 text-center text-xs text-gray-500 flex justify-between items-center">
+            <p>© 2025 PM Internship AI. Part of the Prime Minister’s Internship Scheme.</p>
+            <div class="space-x-4">
+                <a href="#" class="hover:underline">Privacy Policy</a>
+                <a href="#" class="hover:underline">Terms of Service</a>
+                <a href="#" class="hover:underline">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
