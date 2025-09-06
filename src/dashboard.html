@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Udaan Dashboard</title>
+    <!-- Use Inter font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .sidebar {
+            background: linear-gradient(to bottom, #262a4d, #6c2ac4);
+        }
+        
+        /* Custom progress bar styles */
+        .progress-container {
+            width: 100%;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            overflow: hidden;
+            height: 8px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #4c51bf;
+            border-radius: 9999px;
+            transition: width 0.3s ease-in-out;
+        }
+
+        /* Custom scrollbar for Recent Activity */
+        .recent-activity-scroll {
+            max-height: 300px;
+            overflow-y: auto;
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: #4c51bf #f3f4f6; /* For Firefox */
+        }
+
+        .recent-activity-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .recent-activity-scroll::-webkit-scrollbar-track {
+            background: #f3f4f6;
+            border-radius: 10px;
+        }
+
+        .recent-activity-scroll::-webkit-scrollbar-thumb {
+            background-color: #4c51bf;
+            border-radius: 10px;
+            border: 2px solid #f3f4f6;
+        }
+
+        /* Define active and non-active link styles */
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 600;
+        }
+        .nav-link.non-active {
+            color: #d1d5db; /* gray-200 */
+            font-weight: 500;
+        }
+        .nav-link.non-active:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="flex bg-gray-100 min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 sidebar p-6 shadow-md hidden lg:flex flex-col">
+        <div class="flex items-center space-x-2 mb-8">
+            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7V17L12 22L22 17V7L12 2ZM12 4.148L19.462 8L12 11.852L4.538 8L12 4.148ZM4 9.998L10 13.088V20.245L4 17.155V9.998ZM14 13.088L20 9.998V17.155L14 20.245V13.088Z"/>
+            </svg>
+            <span class="text-2xl font-bold text-white">Udaan</span>
+        </div>
+        <nav class="space-y-4">
+            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg nav-link active" data-page="Dashboard">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3L2 12h3v8h5z"/>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+            <a href="resume.html" class="flex items-center space-x-3 p-3 rounded-lg nav-link non-active transition-colors duration-200" data-page="Resume">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h8v4h4v12H6z"/>
+                </svg>
+                <span>Resume</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg nav-link non-active transition-colors duration-200" data-page="Recommendations">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm8 2c-2.05 0-4.04.59-5.74 1.48C9.56 15.28 8 17.44 8 20h2c0-2.24 1.76-4 4-4s4 1.76 4 4h2c0-2.56-1.56-4.72-3.26-5.52C20.04 13.59 18.05 13 16 13zM8 13c-2.05 0-4.04.59-5.74 1.48C.26 15.28-1.24 17.44-1.24 20h2c0-2.24 1.76-4 4-4s4 1.76 4 4h2c0-2.56-1.56-4.72-3.26-5.52C10.04 13.59 8.05 13 8 13z"/>
+                </svg>
+                <span>Recommendations</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg nav-link non-active transition-colors duration-200" data-page="Skill Gap Courses">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 3L1 9l11 6 11-6-11-6zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM5.83 15.18L1 12l11-6 11 6-4.83 3.18c.31.54.49 1.15.49 1.82 0 2.49-2.01 4.5-4.5 4.5s-4.5-2.01-4.5-4.5c0-.67.18-1.28.49-1.82z"/>
+                </svg>
+                <span>Skill Gap Courses</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg nav-link non-active transition-colors duration-200" data-page="Job Applications">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 4h4v2h-4V4zm10 16H4V8h16v12z"/>
+                </svg>
+                <span>Job Applications</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg nav-link non-active transition-colors duration-200" data-page="Job Tracker">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14 10H2v2h12v-2zm0-4H2v2h12V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 16h8v-2H2v2z"/>
+                </svg>
+                <span>Job Tracker</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6 md:p-10">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 id="page-title" class="text-3xl font-bold text-gray-800">Dashboard</h1>
+            <div class="lg:hidden">
+                <button id="menu-button" class="p-2 rounded-lg text-gray-600 hover:bg-gray-200">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4 6h16M4 12h16m-16 6h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <p class="text-gray-600 mb-8">Welcome back! Here's your internship journey overview.</p>
+        
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-start">
+                <h3 class="text-sm font-medium text-gray-500 mb-2">Total Applications</h3>
+                <div class="flex items-center w-full">
+                    <span class="text-3xl font-bold text-gray-900 mr-auto">15</span>
+                    <svg class="w-8 h-8 text-blue-500 rounded-full bg-blue-100 p-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h8v4h4v12H6z"/>
+                    </svg>
+                </div>
+                <p class="text-sm text-green-500 mt-2">+12%</p>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-start">
+                <h3 class="text-sm font-medium text-gray-500 mb-2">Profile Matches</h3>
+                <div class="flex items-center w-full">
+                    <span class="text-3xl font-bold text-gray-900 mr-auto">89%</span>
+                    <svg class="w-8 h-8 text-blue-500 rounded-full bg-blue-100 p-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm8 2c-2.05 0-4.04.59-5.74 1.48C9.56 15.28 8 17.44 8 20h2c0-2.24 1.76-4 4-4s4 1.76 4 4h2c0-2.56-1.56-4.72-3.26-5.52C20.04 13.59 18.05 13 16 13zM8 13c-2.05 0-4.04.59-5.74 1.48C.26 15.28-1.24 17.44-1.24 20h2c0-2.24 1.76-4 4-4s4 1.76 4 4h2c0-2.56-1.56-4.72-3.26-5.52C10.04 13.59 8.05 13 8 13z"/>
+                    </svg>
+                </div>
+                <p class="text-sm text-green-500 mt-2">+5%</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-start">
+                <h3 class="text-sm font-medium text-gray-500 mb-2">Courses Completed</h3>
+                <div class="flex items-center w-full">
+                    <span class="text-3xl font-bold text-gray-900 mr-auto">8/12</span>
+                    <svg class="w-8 h-8 text-blue-500 rounded-full bg-blue-100 p-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M21 21L12 16L3 21V5a2 2 0 012-2h14a2 2 0 012 2v16z"/>
+                    </svg>
+                </div>
+                <p class="text-sm text-gray-500 mt-2">67%</p>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-start">
+                <h3 class="text-sm font-medium text-gray-500 mb-2">Interview Calls</h3>
+                <div class="flex items-center w-full">
+                    <span class="text-3xl font-bold text-gray-900 mr-auto">3</span>
+                    <svg class="w-8 h-8 text-blue-500 rounded-full bg-blue-100 p-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+                    </svg>
+                </div>
+                <p class="text-sm text-green-500 mt-2">+100%</p>
+            </div>
+        </div>
+
+        <!-- Profile Completion & Recent Activity Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Profile Completion -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Profile Completion</h2>
+                <div class="space-y-4">
+                    <!-- Progress Bar 1 -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-gray-600">Personal Info</span>
+                            <span class="text-gray-800 font-medium">100%</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    <!-- Progress Bar 2 -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-gray-600">Skills Assessment</span>
+                            <span class="text-gray-800 font-medium">85%</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 85%; background-color: #4f46e5;"></div>
+                        </div>
+                    </div>
+                    <!-- Progress Bar 3 -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-gray-600">Resume Upload</span>
+                            <span class="text-gray-800 font-medium">100%</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    <!-- Progress Bar 4 -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-gray-600">Preferences</span>
+                            <span class="text-gray-800 font-medium">60%</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 60%; background-color: #f59e0b;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Recent Activity</h2>
+                <div class="recent-activity-scroll">
+                    <!-- Activity 1 -->
+                    <div class="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M11 15h2v2h-2zm0-8h2v6h-2z"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-800 font-medium">Applied to Product Manager - Tech Startup</p>
+                            <span class="text-xs text-gray-500">2 hours ago</span>
+                        </div>
+                        <span class="text-xs font-medium px-2 py-1 rounded-full bg-indigo-100 text-indigo-700">application</span>
+                    </div>
+                    <!-- Activity 2 -->
+                    <div class="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-800 font-medium">Completed "Agile Methodology" course</p>
+                            <span class="text-xs text-gray-500">1 day ago</span>
+                        </div>
+                        <span class="text-xs font-medium px-2 py-1 rounded-full bg-sky-100 text-sky-700">course</span>
+                    </div>
+                    <!-- Activity 3 -->
+                    <div class="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-800 font-medium">Interview scheduled with InnovateX</p>
+                            <span class="text-xs text-gray-500">2 days ago</span>
+                        </div>
+                        <span class="text-xs font-medium px-2 py-1 rounded-full bg-purple-100 text-purple-700">interview</span>
+                    </div>
+                    <!-- Activity 4 -->
+                    <div class="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-800 font-medium">New recommendation: Data PM role</p>
+                            <span class="text-xs text-gray-500">3 days ago</span>
+                        </div>
+                        <span class="text-xs font-medium px-2 py-1 rounded-full bg-pink-100 text-pink-700">recommendation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Quick Actions</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button class="flex flex-col items-center justify-center p-4 rounded-xl shadow-md transition-transform duration-200 transform hover:scale-105" style="background-color: #f3f4fe;">
+                    <svg class="w-10 h-10 text-indigo-700 mb-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 4h4v2h-4V4zm10 16H4V8h16v12z"/>
+                    </svg>
+                    <span class="text-xs font-medium text-gray-700">Explore Jobs</span>
+                </button>
+                <button class="flex flex-col items-center justify-center p-4 rounded-xl shadow-md transition-transform duration-200 transform hover:scale-105" style="background-color: #e3f2fd;">
+                    <svg class="w-10 h-10 text-blue-700 mb-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+                    </svg>
+                    <span class="text-xs font-medium text-gray-700">Connect with Mentors</span>
+                </button>
+                <button class="flex flex-col items-center justify-center p-4 rounded-xl shadow-md transition-transform duration-200 transform hover:scale-105" style="background-color: #fef3f6;">
+                    <svg class="w-10 h-10 text-pink-700 mb-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm8 2c-2.05 0-4.04.59-5.74 1.48C9.56 15.28 8 17.44 8 20h2c0-2.24 1.76-4 4-4s4 1.76 4 4h2c0-2.56-1.56-4.72-3.26-5.52C20.04 13.59 18.05 13 16 13zM8 13c-2.05 0-4.04.59-5.74 1.48C.26 15.28-1.24 17.44-1.24 20h2c0-2.24 1.76-4 4-4s4 1.76 4 4h2c0-2.56-1.56-4.72-3.26-5.52C10.04 13.59 8.05 13 8 13z"/>
+                    </svg>
+                    <span class="text-xs font-medium text-gray-700">Get Recommendations</span>
+                </button>
+                <button class="flex flex-col items-center justify-center p-4 rounded-xl shadow-md transition-transform duration-200 transform hover:scale-105" style="background-color: #e5f6e8;">
+                    <svg class="w-10 h-10 text-green-700 mb-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 3L1 9l11 6 11-6-11-6zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM5.83 15.18L1 12l11-6 11 6-4.83 3.18c.31.54.49 1.15.49 1.82 0 2.49-2.01 4.5-4.5 4.5s-4.5-2.01-4.5-4.5c0-.67.18-1.28.49-1.82z"/>
+                    </svg>
+                    <span class="text-xs font-medium text-gray-700">Skill Up Courses</span>
+                </button>
+                <button class="flex flex-col items-center justify-center p-4 rounded-xl shadow-md transition-transform duration-200 transform hover:scale-105" style="background-color: #fffbe8;">
+                    <svg class="w-10 h-10 text-yellow-700 mb-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h8v4h4v12H6z"/>
+                    </svg>
+                    <span class="text-xs font-medium text-gray-700">Resume Builder</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Get all navigation links
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        // Function to handle the navigation link click
+        function handleNavClick(event) {
+            // Remove the 'active' class from all links and add 'non-active'
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                link.classList.add('non-active');
+            });
+
+            // Add the 'active' class to the clicked link and remove 'non-active'
+            event.currentTarget.classList.add('active');
+            event.currentTarget.classList.remove('non-active');
+        }
+
+        // Add a click listener to each navigation link
+        navLinks.forEach(link => {
+            link.addEventListener('click', handleNavClick);
+        });
+
+        const menuButton = document.getElementById('menu-button');
+        const sidebar = document.querySelector('aside');
+
+        menuButton.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            sidebar.classList.toggle('flex');
+            sidebar.classList.toggle('absolute');
+            sidebar.classList.toggle('inset-y-0');
+            sidebar.classList.toggle('left-0');
+            sidebar.classList.toggle('z-50');
+        });
+
+        // Hide sidebar when clicking outside on mobile
+        document.addEventListener('click', (event) => {
+            if (!sidebar.contains(event.target) && !menuButton.contains(event.target) && window.innerWidth < 1024) {
+                sidebar.classList.add('hidden');
+                sidebar.classList.remove('flex', 'absolute', 'inset-y-0', 'left-0', 'z-50');
+            }
+        });
+
+        // Toggle mobile sidebar on resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('hidden', 'absolute', 'inset-y-0', 'left-0', 'z-50');
+                sidebar.classList.add('flex');
+            }
+        });
+    </script>
+</body>
+</html>

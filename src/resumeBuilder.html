@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resume Builder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex min-h-screen">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white shadow-lg hidden lg:flex flex-col">
+    <div class="p-6 border-b">
+      <h1 class="text-2xl font-bold text-indigo-600">Resume Builder</h1>
+    </div>
+    <nav id="sidebar-nav" class="flex-1 p-4 space-y-3">
+      <button class="tab-btn w-full text-left px-4 py-2 rounded-lg hover:bg-indigo-100" data-tab="personal">Personal Info</button>
+      <button class="tab-btn w-full text-left px-4 py-2 rounded-lg hover:bg-indigo-100" data-tab="experience">Experience</button>
+      <button class="tab-btn w-full text-left px-4 py-2 rounded-lg hover:bg-indigo-100" data-tab="education">Education</button>
+      <button class="tab-btn w-full text-left px-4 py-2 rounded-lg hover:bg-indigo-100" data-tab="skills">Skills</button>
+      <button class="tab-btn w-full text-left px-4 py-2 rounded-lg hover:bg-indigo-100" data-tab="summary">Summary</button>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-6 flex flex-col lg:flex-row gap-6">
+    <!-- Form Section -->
+    <div class="bg-white rounded-2xl shadow-lg flex-1 p-6">
+      <div id="form-sections" class="space-y-6">
+        <!-- Personal Info -->
+        <div class="form-tab" id="personal">
+          <h2 class="text-xl font-semibold mb-4">Personal Information</h2>
+          <input id="name" type="text" placeholder="Full Name" class="w-full mb-3 p-2 border rounded-lg"/>
+          <input id="email" type="email" placeholder="Email" class="w-full mb-3 p-2 border rounded-lg"/>
+          <input id="phone" type="text" placeholder="Phone" class="w-full mb-3 p-2 border rounded-lg"/>
+          <input id="linkedin" type="text" placeholder="LinkedIn Profile" class="w-full mb-3 p-2 border rounded-lg"/>
+        </div>
+        
+        <!-- Experience -->
+        <div class="form-tab hidden" id="experience">
+          <h2 class="text-xl font-semibold mb-4">Work Experience</h2>
+          <textarea id="experience-text" placeholder="e.g. Job Title, Company, Duration, Responsibilities" class="w-full p-2 border rounded-lg h-32"></textarea>
+        </div>
+
+        <!-- Education -->
+        <div class="form-tab hidden" id="education">
+          <h2 class="text-xl font-semibold mb-4">Education</h2>
+          <textarea id="education-text" placeholder="e.g. Degree, School, Year" class="w-full p-2 border rounded-lg h-32"></textarea>
+        </div>
+
+        <!-- Skills -->
+        <div class="form-tab hidden" id="skills">
+          <h2 class="text-xl font-semibold mb-4">Skills</h2>
+          <input id="skills-text" type="text" placeholder="e.g. JavaScript, Python, SQL" class="w-full mb-3 p-2 border rounded-lg"/>
+        </div>
+
+        <!-- Summary -->
+        <div class="form-tab hidden" id="summary">
+          <h2 class="text-xl font-semibold mb-4">Professional Summary</h2>
+          <textarea id="summary-text" placeholder="Brief summary about yourself" class="w-full p-2 border rounded-lg h-32"></textarea>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="flex justify-between mt-6">
+        <button id="prev-btn" class="px-4 py-2 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300">Previous</button>
+        <button id="next-btn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Next</button>
+      </div>
+    </div>
+
+    <!-- Resume Preview -->
+    <div class="bg-white rounded-2xl shadow-lg flex-1 p-6 overflow-auto">
+      <h2 class="text-xl font-semibold mb-4">Resume Preview</h2>
+      <div id="resume-preview" class="space-y-4 p-4 border rounded-lg">
+        <div>
+          <h1 class="text-2xl font-bold" id="preview-name">Your Name</h1>
+          <p id="preview-contact" class="text-sm text-gray-600">Email | Phone | LinkedIn</p>
+        </div>
+        <div>
+          <h3 class="font-semibold">Summary</h3>
+          <p id="preview-summary" class="text-gray-700 text-sm">Your summary will appear here...</p>
+        </div>
+        <div>
+          <h3 class="font-semibold">Experience</h3>
+          <p id="preview-experience" class="text-gray-700 text-sm">Your experience will appear here...</p>
+        </div>
+        <div>
+          <h3 class="font-semibold">Education</h3>
+          <p id="preview-education" class="text-gray-700 text-sm">Your education will appear here...</p>
+        </div>
+        <div>
+          <h3 class="font-semibold">Skills</h3>
+          <p id="preview-skills" class="text-gray-700 text-sm">Your skills will appear here...</p>
+        </div>
+      </div>
+      <button id="download-btn" class="mt-6 w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Download PDF</button>
+    </div>
+  </main>
+
+  <script>
+    const tabs = document.querySelectorAll(".form-tab");
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    let currentTab = 0;
+
+    function showTab(index) {
+      tabs.forEach((tab, i) => tab.classList.toggle("hidden", i !== index));
+      tabButtons.forEach((btn, i) => {
+        btn.classList.toggle("bg-indigo-100", i === index);
+        btn.classList.toggle("text-indigo-700", i === index);
+        btn.classList.toggle("font-semibold", i === index);
+      });
+      currentTab = index;
+    }
+
+    document.getElementById("next-btn").addEventListener("click", () => {
+      if (currentTab < tabs.length - 1) showTab(currentTab + 1);
+    });
+
+    document.getElementById("prev-btn").addEventListener("click", () => {
+      if (currentTab > 0) showTab(currentTab - 1);
+    });
+
+    tabButtons.forEach((btn, i) => {
+      btn.addEventListener("click", () => showTab(i));
+    });
+
+    // Live Preview Updates
+    document.getElementById("name").addEventListener("input", e => {
+      document.getElementById("preview-name").textContent = e.target.value || "Your Name";
+    });
+    document.getElementById("email").addEventListener("input", updateContact);
+    document.getElementById("phone").addEventListener("input", updateContact);
+    document.getElementById("linkedin").addEventListener("input", updateContact);
+
+    function updateContact() {
+      const email = document.getElementById("email").value || "Email";
+      const phone = document.getElementById("phone").value || "Phone";
+      const linkedin = document.getElementById("linkedin").value || "LinkedIn";
+      document.getElementById("preview-contact").textContent = `${email} | ${phone} | ${linkedin}`;
+    }
+
+    document.getElementById("experience-text").addEventListener("input", e => {
+      document.getElementById("preview-experience").textContent = e.target.value || "Your experience will appear here...";
+    });
+    document.getElementById("education-text").addEventListener("input", e => {
+      document.getElementById("preview-education").textContent = e.target.value || "Your education will appear here...";
+    });
+    document.getElementById("skills-text").addEventListener("input", e => {
+      document.getElementById("preview-skills").textContent = e.target.value || "Your skills will appear here...";
+    });
+    document.getElementById("summary-text").addEventListener("input", e => {
+      document.getElementById("preview-summary").textContent = e.target.value || "Your summary will appear here...";
+    });
+
+    // Download PDF
+    document.getElementById("download-btn").addEventListener("click", async () => {
+      const { jsPDF } = window.jspdf;
+      const resume = document.getElementById("resume-preview");
+      const canvas = await html2canvas(resume, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("resume.pdf");
+    });
+
+    // Initialize first tab
+    showTab(0);
+  </script>
+</body>
+</html>

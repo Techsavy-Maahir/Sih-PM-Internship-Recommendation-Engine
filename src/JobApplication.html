@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Udaan Dashboard - Job Applications</title>
+    <!-- Use Inter font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .sidebar {
+            background: linear-gradient(to bottom, #262a4d, #6c2ac4);
+        }
+
+        /* Define active and non-active link styles */
+        .nav-link.active {
+            background-color: #2a3861;
+            color: white;
+            font-weight: 600;
+        }
+        .nav-link.non-active {
+            color: #d1d5db;
+            font-weight: 500;
+        }
+        .nav-link.non-active:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .status-card.applied {
+            color: #1a73e8;
+            background-color: #e8f0fe;
+        }
+        .status-card.under-review {
+            color: #f9ab00;
+            background-color: #fef7e0;
+        }
+        .status-card.interview {
+            color: #7c4dff;
+            background-color: #f3e8ff;
+        }
+        .status-card.accepted {
+            color: #0f9d58;
+            background-color: #e6f4ea;
+        }
+        .status-card.rejected {
+            color: #d93025;
+            background-color: #fce8e6;
+        }
+    </style>
+</head>
+<body class="flex bg-gray-100 min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 sidebar p-6 shadow-md hidden lg:flex flex-col">
+        <div class="flex items-center space-x-2 mb-8">
+            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 21h20L12 2zM12 6.75L18.86 19H5.14L12 6.75z"/>
+            </svg>
+            <span class="text-white text-3xl font-bold">Udaan</span>
+        </div>
+        <nav class="flex-1 space-y-2">
+            <a href="#" class="nav-link non-active flex items-center p-3 rounded-lg transition-colors duration-200">
+                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-link non-active flex items-center p-3 rounded-lg transition-colors duration-200">
+                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-4 0c1.66 0 2.99-1.34 2.99-3S13.66 5 12 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zM2 17c0-3.31 3.13-6 7-6s7 2.69 7 6H2zm8 0c0-2.21 2.9-4 6-4s6 1.79 6 4H10z"/>
+                </svg>
+                <span>Resume</span>
+            </a>
+            <a href="#" class="nav-link non-active flex items-center p-3 rounded-lg transition-colors duration-200">
+                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-12h4c1.1 0 2 .9 2 2v2c0 1.1-.9 2-2 2h-4c-1.1 0-2-.9-2-2V8c0-1.1.9-2 2-2zm0 6h4v2h-4v-2z"/>
+                </svg>
+                <span>Recommendations</span>
+            </a>
+            <a href="#" class="nav-link non-active flex items-center p-3 rounded-lg transition-colors duration-200">
+                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                <span>Skill Gap Courses</span>
+            </a>
+            <a href="#" class="nav-link active flex items-center p-3 rounded-lg transition-colors duration-200">
+                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span>Job Applications</span>
+            </a>
+            <a href="#" class="nav-link non-active flex items-center p-3 rounded-lg transition-colors duration-200">
+                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z"/>
+                </svg>
+                <span>Job Tracker</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+        <header class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-semibold text-gray-800">Job Applications</h1>
+            <button class="bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 transition-colors duration-200 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                </svg>
+                Add Application
+            </button>
+        </header>
+        <p class="text-gray-500 mb-8">Track and manage your internship applications.</p>
+
+        <!-- Status Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-8">
+            <div class="status-card applied p-6 rounded-lg text-center">
+                <h3 class="text-4xl font-semibold">5</h3>
+                <p class="mt-1 font-medium">All Applications</p>
+            </div>
+            <div class="status-card applied p-6 rounded-lg text-center">
+                <h3 class="text-4xl font-semibold">1</h3>
+                <p class="mt-1 font-medium">Applied</p>
+            </div>
+            <div class="status-card under-review p-6 rounded-lg text-center">
+                <h3 class="text-4xl font-semibold">1</h3>
+                <p class="mt-1 font-medium">Under Review</p>
+            </div>
+            <div class="status-card interview p-6 rounded-lg text-center">
+                <h3 class="text-4xl font-semibold">1</h3>
+                <p class="mt-1 font-medium">Interview</p>
+            </div>
+            <div class="status-card accepted p-6 rounded-lg text-center">
+                <h3 class="text-4xl font-semibold">1</h3>
+                <p class="mt-1 font-medium">Accepted</p>
+            </div>
+            <div class="status-card rejected p-6 rounded-lg text-center">
+                <h3 class="text-4xl font-semibold">1</h3>
+                <p class="mt-1 font-medium">Rejected</p>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-8 space-y-4 sm:space-y-0 sm:space-x-4">
+            <div class="relative w-full sm:w-1/2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </div>
+                <input type="text" placeholder="Search applications..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-lg shadow-sm hover:bg-gray-300 transition-colors duration-200 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 18h4v-2h-4v2zm-4-5h12v-2H6v2zm-4-5h20V6H2v2z"/>
+                </svg>
+                More Filters
+            </button>
+        </div>
+
+        <!-- Application List -->
+        <div class="space-y-6">
+            <!-- Interview Status -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-lg font-semibold text-gray-800">Product Management Intern</h2>
+                    <span class="bg-purple-200 text-purple-700 font-semibold px-3 py-1 rounded-full text-xs">Interview</span>
+                </div>
+                <div class="flex items-center text-gray-500 text-sm mb-4 space-x-4">
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>TechStart Inc.</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>Bengaluru, Karnataka</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/>
+                        </svg>
+                        <span>Applied: 15/1/2024</span>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">Work on cutting-edge products and learn from experienced PMs.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-500">
+                    <div>
+                        <p class="font-medium text-gray-700">Salary:</p>
+                        <p>₹25,000/month</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Type:</p>
+                        <p>Internship</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Duration:</p>
+                        <p>6 months</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Source:</p>
+                        <p>Company Website</p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200 mt-4 pt-4">
+                    <p class="font-medium text-gray-700">Next Action:</p>
+                    <p class="text-sm text-gray-600">Technical interview scheduled for Jan 25th</p>
+                </div>
+                <div class="mt-4 flex flex-col md:flex-row items-start md:items-center justify-between space-y-2 md:space-y-0">
+                    <div class="flex space-x-4">
+                        <button class="flex items-center text-indigo-600 hover:text-indigo-800 transition-colors duration-200">
+                            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                            </svg>
+                            View Details
+                        </button>
+                        <button class="flex items-center text-gray-600 hover:text-gray-800 transition-colors duration-200">
+                            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59L8.46 12.04l1.41 1.41L19 7.41V11h2V3h-8z"/>
+                            </svg>
+                            Job Posting
+                        </button>
+                    </div>
+                    <button class="bg-indigo-50 text-indigo-700 font-semibold px-4 py-2 rounded-lg hover:bg-indigo-100 transition-colors duration-200">
+                        Interview Prep
+                    </button>
+                </div>
+            </div>
+
+            <!-- Under Review Status -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-lg font-semibold text-gray-800">Junior Product Associate</h2>
+                    <span class="bg-yellow-200 text-yellow-700 font-semibold px-3 py-1 rounded-full text-xs">Review</span>
+                </div>
+                <div class="flex items-center text-gray-500 text-sm mb-4 space-x-4">
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>Digital Solutions Ltd.</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>Mumbai, Maharashtra</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/>
+                        </svg>
+                        <span>Applied: 10/1/2024</span>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">Focus on user experience and product optimization.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-500">
+                    <div>
+                        <p class="font-medium text-gray-700">Salary:</p>
+                        <p>₹20,000/month</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Type:</p>
+                        <p>Internship</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Duration:</p>
+                        <p>4 months</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Source:</p>
+                        <p>LinkedIn</p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200 mt-4 pt-4">
+                    <p class="font-medium text-gray-700">Next Action:</p>
+                    <p class="text-sm text-gray-600">Waiting for recruiter response</p>
+                </div>
+                <div class="mt-4 flex space-x-4">
+                    <button class="flex items-center text-indigo-600 hover:text-indigo-800 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                        View Details
+                    </button>
+                    <button class="flex items-center text-gray-600 hover:text-gray-800 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59L8.46 12.04l1.41 1.41L19 7.41V11h2V3h-8z"/>
+                        </svg>
+                        Job Posting
+                    </button>
+                </div>
+            </div>
+
+            <!-- Applied Status -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-lg font-semibold text-gray-800">Product Strategy Intern</h2>
+                    <span class="bg-blue-200 text-blue-700 font-semibold px-3 py-1 rounded-full text-xs">Applied</span>
+                </div>
+                <div class="flex items-center text-gray-500 text-sm mb-4 space-x-4">
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>Innovation Hub</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>Hyderabad, Telangana</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/>
+                        </svg>
+                        <span>Applied: 8/1/2024</span>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">Contribute to product roadmap and strategic initiatives.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-500">
+                    <div>
+                        <p class="font-medium text-gray-700">Salary:</p>
+                        <p>₹22,000/month</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Type:</p>
+                        <p>Internship</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Duration:</p>
+                        <p>5 months</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Source:</p>
+                        <p>Naukri.com</p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200 mt-4 pt-4">
+                    <p class="font-medium text-gray-700">Next Action:</p>
+                    <p class="text-sm text-gray-600">Application submitted, awaiting response</p>
+                </div>
+                <div class="mt-4 flex space-x-4">
+                    <button class="flex items-center text-indigo-600 hover:text-indigo-800 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                        View Details
+                    </button>
+                    <button class="flex items-center text-gray-600 hover:text-gray-800 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59L8.46 12.04l1.41 1.41L19 7.41V11h2V3h-8z"/>
+                        </svg>
+                        Job Posting
+                    </button>
+                </div>
+            </div>
+
+            <!-- Rejected Status -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-lg font-semibold text-gray-800">Associate Product Manager</h2>
+                    <span class="bg-red-200 text-red-700 font-semibold px-3 py-1 rounded-full text-xs">Rejected</span>
+                </div>
+                <div class="flex items-center text-gray-500 text-sm mb-4 space-x-4">
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>StartupX</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>Pune, Maharashtra</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/>
+                        </svg>
+                        <span>Applied: 5/1/2024</span>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">Lead product development for mobile applications.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-500">
+                    <div>
+                        <p class="font-medium text-gray-700">Salary:</p>
+                        <p>₹30,000/month</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Type:</p>
+                        <p>Full-time</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Duration:</p>
+                        <p>Permanent</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Source:</p>
+                        <p>Angellist</p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200 mt-4 pt-4">
+                    <p class="font-medium text-gray-700">Next Action:</p>
+                    <p class="text-sm text-red-600">Application rejected - insufficient experience</p>
+                </div>
+                <div class="mt-4 flex space-x-4">
+                    <button class="flex items-center text-indigo-600 hover:text-indigo-800 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                        View Details
+                    </button>
+                    <button class="flex items-center text-gray-600 hover:text-gray-800 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59L8.46 12.04l1.41 1.41L19 7.41V11h2V3h-8z"/>
+                        </svg>
+                        Job Posting
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Accepted Status -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-lg font-semibold text-gray-800">Product Analyst Intern</h2>
+                    <span class="bg-green-200 text-green-700 font-semibold px-3 py-1 rounded-full text-xs">Accepted</span>
+                </div>
+                <div class="flex items-center text-gray-500 text-sm mb-4 space-x-4">
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>DataCorp</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>Chennai, Tamil Nadu</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/>
+                        </svg>
+                        <span>Applied: 3/1/2024</span>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">Analyze product metrics and user behavior data.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-500">
+                    <div>
+                        <p class="font-medium text-gray-700">Salary:</p>
+                        <p>₹18,000/month</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Type:</p>
+                        <p>Internship</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Duration:</p>
+                        <p>3 months</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-700">Source:</p>
+                        <p>Company Referral</p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200 mt-4 pt-4">
+                    <p class="font-medium text-gray-700">Next Action:</p>
+                    <p class="text-sm text-green-600">Offer accepted - Starting Feb 1st</p>
+                </div>
+                <div class="mt-4 flex space-x-4">
+                    <button class="flex items-center text-indigo-600 hover:text-indigo-800 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                        View Details
+                    </button>
+                    <button class="flex items-center text-gray-600 hover:text-gray-800 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59L8.46 12.04l1.41 1.41L19 7.41V11h2V3h-8z"/>
+                        </svg>
+                        Job Posting
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
